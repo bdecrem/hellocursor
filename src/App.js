@@ -53,9 +53,10 @@ function App() {
             <Gif gif={gif} width={300} />
           </div>
         )}
-        <p>
-          Hello world, Bart!
-        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <p style={{ margin: 0, fontSize: '24px' }}>Hello world!</p>
+          <p style={{ margin: 0, alignSelf: 'flex-end', marginTop: '8px' }}>--Bart</p>
+        </div>
       </header>
     </div>
   );
