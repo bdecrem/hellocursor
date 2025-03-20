@@ -49,13 +49,13 @@ function App() {
           </div>
         )}
         {gif && (
-          <div style={{ marginBottom: '20px' }}>
+          <div className="gif-container">
             <Gif gif={gif} width={300} />
           </div>
         )}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <p style={{ margin: 0, fontSize: '24px' }}>Hello world!</p>
-          <p style={{ margin: 0, alignSelf: 'flex-end', marginTop: '8px' }}>--Bart</p>
+        <div className="message-container">
+          <p className="hello-text">Hello world!</p>
+          <p className="signature">—Bart</p>
         </div>
       </header>
     </div>
