@@ -17,13 +17,11 @@ function App() {
         });
 
         const gf = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
-        
-        // Try a simple search instead of trending to test the API
-        const { data } = await gf.search('happy', { limit: 1 });
-        console.log('Search response:', data);
-        
+        // Get 25 trending GIFs and pick one randomly
+        const { data } = await gf.trending({ limit: 25 });
         if (data && data.length > 0) {
-          setGif(data[0]);
+          const randomIndex = Math.floor(Math.random() * data.length);
+          setGif(data[randomIndex]);
         } else {
           setError('No GIFs found');
         }
