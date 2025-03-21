@@ -33,13 +33,24 @@ function App() {
   const [gif, setGif] = useState(null);
   const [error, setError] = useState(null);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [shareUrl, setShareUrl] = useState('');
+
   const [currentMood, setCurrentMood] = useState(() => {
-    const saved = localStorage.getItem('currentMood');
-    return saved ? JSON.parse(saved) : moods[0];
+    const params = new URLSearchParams(window.location.search);
+    const savedMoodName = params.get('mood');
+    const savedMood = moods.find(m => m.name === savedMoodName);
+    const savedFromStorage = localStorage.getItem('currentMood');
+    return savedMood || (savedFromStorage ? JSON.parse(savedFromStorage) : moods[0]);
   });
+
   const [currentGradient, setCurrentGradient] = useState(() => {
-    const saved = localStorage.getItem('currentGradient');
-    return saved ? JSON.parse(saved) : gradients[0];
+    const params = new URLSearchParams(window.location.search);
+    const savedGradientName = params.get('gradient');
+    const savedGradient = gradients.find(g => g.name === savedGradientName);
+    const savedFromStorage = localStorage.getItem('currentGradient');
+    return savedGradient || (savedFromStorage ? JSON.parse(savedFromStorage) : gradients[0]);
   });
 
   const fetchGif = async (searchTerm) => {
@@ -102,12 +113,62 @@ function App() {
     spin();
   };
 
+  const handleSaveClick = () => {
+    setShowShareDialog(true);
+  };
+
+  const handleShareSubmit = (e) => {
+    e.preventDefault();
+    const baseUrl = window.location.origin + window.location.pathname;
+    const params = new URLSearchParams({
+      mood: currentMood.name,
+      gradient: currentGradient.name,
+      name: userName
+    });
+    const url = `${baseUrl}?${params.toString()}`;
+    setShareUrl(url);
+  };
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(shareUrl);
+  };
+
   return (
     <div className="App">
       <header className="App-header" style={{ background: currentGradient.style }}>
-        <div className="mood-title mood-title-bottom">
-          {currentGradient.name} {currentMood.name}
+        <div className="mood-title-container">
+          <div className="mood-title mood-title-bottom">
+            {currentGradient.name} {currentMood.name}
+            <button className="save-button" onClick={handleSaveClick} title="Save and share">
+              💾
+            </button>
+          </div>
         </div>
+
+        {showShareDialog && (
+          <div className="share-dialog">
+            {!shareUrl ? (
+              <form onSubmit={handleShareSubmit}>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="name-input"
+                />
+                <button type="submit" className="share-submit">Create Link</button>
+                <button type="button" className="share-close" onClick={() => setShowShareDialog(false)}>✕</button>
+              </form>
+            ) : (
+              <div className="share-url-container">
+                <input type="text" readOnly value={shareUrl} className="share-url" />
+                <button onClick={handleCopyUrl} className="copy-button">Copy</button>
+                <button className="share-close" onClick={() => setShowShareDialog(false)}>✕</button>
+              </div>
+            )}
+          </div>
+        )}
+
         {error && (
           <div style={{ color: 'red', marginBottom: '20px', maxWidth: '80%', wordBreak: 'break-word' }}>
             Error loading GIF: {error}
@@ -120,7 +181,7 @@ function App() {
         )}
         <div className="message-container">
           <p className="hello-text">Hello world!</p>
-          <p className="signature">—Bart</p>
+          <p className="signature">—{new URLSearchParams(window.location.search).get('name') || 'Bart'}</p>
         </div>
         <button 
           className={`roulette-button ${isSpinning ? 'spinning' : ''}`} 
