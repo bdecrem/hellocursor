@@ -69,6 +69,10 @@ All notable changes to this project will be documented in this file.
 - Improved Safari compatibility for cookies
 - Cookie verification on set
 - More robust cookie parsing
+- Improved cookie domain handling for localhost and other domains
+- Enhanced cookie debugging logs
+- Special handling for localhost cookies
+- More detailed cookie operation logging
 
 ## [Configuration]
 - ⭐ marks specially designated commits that represent stable, working builds
