@@ -334,3 +334,9 @@
   outline: none;
   border-color: #2c3e50;
 }
+
+@media (max-width: 768px) {
+  .App-header {
+    padding-bottom: 80px;  /* Space for the fixed button */
+  }
+}
