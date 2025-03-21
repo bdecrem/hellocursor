@@ -6,7 +6,7 @@ import { supabase } from './supabaseClient';
 import SharedPage from './components/SharedPage';
 import './App.css';
 
-const gradients = [
+export const gradients = [
   { style: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', name: 'Peachy' },
   { style: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', name: 'Minty' },
   { style: 'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)', name: 'Spring' },
@@ -19,7 +19,7 @@ const gradients = [
   { style: 'linear-gradient(135deg, #ffecd2 0%, #c7ecee 100%)', name: 'Beach' }
 ];
 
-const moods = [
+export const moods = [
   { name: 'Trending', search: 'trending' },
   { name: 'Happy', search: 'happy excited' },
   { name: 'Sassy', search: 'sassy attitude' },
@@ -153,17 +153,15 @@ function MainApp() {
         uniqueUsername = `${userName}${maxNumber + 1}`;
       }
 
-      // Save to Supabase
-      const { data, error } = await supabase
+      // Save to Supabase with only the fields that exist in the schema
+      const { error } = await supabase
         .from('shared_moods')
         .insert([
           {
             username: uniqueUsername,
             mood_name: currentMood.name,
             gradient_name: currentGradient.name,
-            gradient_style: currentGradient.style,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
+            gradient_style: currentGradient.style
           }
         ])
         .select()
@@ -174,7 +172,7 @@ function MainApp() {
       // Create the share URL using the unique username
       const url = `${window.location.origin}/${uniqueUsername}`;
       setShareUrl(url);
-      setUserName(uniqueUsername); // Update the displayed username
+      setUserName(uniqueUsername);
     } catch (err) {
       console.error('Error saving shared mood:', err);
       setError(`Failed to create share link: ${err.message}`);
