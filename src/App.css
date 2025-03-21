@@ -47,8 +47,9 @@
 .message-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
 }
 
 .hello-text {
@@ -58,16 +59,22 @@
   font-weight: 600;
   max-width: 600px;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.4;
+}
+
+.hello-text br {
+  margin-bottom: 8px;
+  content: "";
+  display: block;
 }
 
 .signature {
   margin: 0;
-  align-self: flex-end;
   margin-top: 8px;
   font-size: 18px;
   color: #34495e;
   font-weight: 600;
+  text-align: center;
 }
 
 .color-button {
@@ -108,7 +115,6 @@
   color: #2c3e50;
   background: rgba(255, 255, 255, 0.6);
   padding: 6px 12px;
-  padding-right: 35px;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   font-weight: 400;
@@ -117,23 +123,73 @@
   transition: all 0.3s ease;
 }
 
-.save-button {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
+.share-corner-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  font-size: 12px;
-  padding: 4px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #2c3e50;
   cursor: pointer;
-  opacity: 0.7;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  z-index: 100;
 }
 
-.save-button:hover {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.1);
+.share-corner-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.share-corner-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.roulette-button {
+  position: fixed;
+  bottom: 20px;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.roulette-button:hover {
+  transform: translateY(-2px) rotate(15deg);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.roulette-button:active {
+  transform: translateY(0) rotate(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.roulette-button.spinning {
+  animation: spin 1s ease-in-out;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .share-dialog {
@@ -202,41 +258,4 @@
   cursor: pointer;
   font-size: 14px;
   white-space: nowrap;
-}
-
-.roulette-button {
-  position: fixed;
-  bottom: 20px;
-  font-size: 24px;
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  background: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-.roulette-button:hover {
-  transform: translateY(-2px) rotate(15deg);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-}
-
-.roulette-button:active {
-  transform: translateY(0) rotate(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.roulette-button.spinning {
-  animation: spin 1s ease-in-out;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
