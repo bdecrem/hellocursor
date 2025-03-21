@@ -4,8 +4,15 @@ export const setCookie = (name, value, days = 365) => {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = `expires=${date.toUTCString()}`;
-    document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax`;
-    return true;
+    // Add domain and secure attributes for better Safari support
+    const cookieValue = `${name}=${value};${expires};path=/;SameSite=Lax;domain=${window.location.hostname}`;
+    console.log('Setting cookie with value:', cookieValue);
+    document.cookie = cookieValue;
+    
+    // Verify the cookie was set
+    const verifyValue = getCookie(name);
+    console.log('Verifying cookie was set:', name, 'Value:', verifyValue);
+    return verifyValue === value;
   } catch (error) {
     console.error('Error setting cookie:', error);
     return false;
@@ -14,10 +21,12 @@ export const setCookie = (name, value, days = 365) => {
 
 export const getCookie = (name) => {
   try {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      return parts.pop().split(';').shift();
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    console.log('All cookies when getting:', name, ':', cookies);
+    for (const cookie of cookies) {
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
     }
     return null;
   } catch (error) {

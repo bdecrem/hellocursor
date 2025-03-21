@@ -31,7 +31,10 @@ function SharedPage() {
         if (data) {
           setSharedMood(data);
           // Check if this is the mood creator viewing their own mood
-          const isMoodCreator = getCookie(`mood_creator_${username}`);
+          const cookieName = `mood_creator_${username}`;
+          const isMoodCreator = getCookie(cookieName);
+          console.log('Checking cookie:', cookieName, 'Value:', isMoodCreator);
+          console.log('All cookies:', document.cookie);
           setShowClaimBanner(!!isMoodCreator);
           
           // Find the mood object to get the search term

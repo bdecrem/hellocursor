@@ -172,7 +172,10 @@ function MainApp() {
       if (error) throw error;
 
       // Set cookie to identify the user
-      setCookie(`mood_creator_${uniqueUsername}`, 'true');
+      const cookieName = `mood_creator_${uniqueUsername}`;
+      const cookieSet = setCookie(cookieName, 'true');
+      console.log('Setting cookie:', cookieName, 'Success:', cookieSet);
+      console.log('Current cookies:', document.cookie);
 
       // Create the share URL using the unique username
       const url = `${window.location.origin}/${uniqueUsername}`;
