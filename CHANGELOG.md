@@ -76,6 +76,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- Debug logging for user verification process
+- Detailed console logs for account claiming
+- User status checking in shared pages
 - Email verification system using Supabase's built-in service
 - Verification page for confirming email addresses
 - Secure token generation for email verification

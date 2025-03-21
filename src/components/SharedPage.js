@@ -33,9 +33,15 @@ function SharedPage() {
           throw userError;
         }
 
+        // Log user data for debugging
+        console.log('User data:', userData);
+
         // Set user status if found
         if (userData) {
           setUserStatus(userData.is_confirmed ? 'confirmed' : 'unconfirmed');
+          console.log('User status:', userData.is_confirmed ? 'confirmed' : 'unconfirmed');
+        } else {
+          console.log('No user record found for username:', username);
         }
 
         // Then fetch the shared mood
@@ -95,6 +101,8 @@ function SharedPage() {
 
   const handleClaimAccount = async (email) => {
     try {
+      console.log('Attempting to claim account for:', { username, email });
+
       // Check if email is already in use by a confirmed user
       const { data: existingUser, error: checkError } = await supabase
         .from('users')
@@ -104,15 +112,18 @@ function SharedPage() {
         .single();
 
       if (checkError && checkError.code !== 'PGRST116') {
+        console.error('Error checking existing user:', checkError);
         throw checkError;
       }
 
       if (existingUser) {
+        console.log('Email already registered:', email);
         throw new Error('This email is already registered');
       }
 
       // Generate a secure random token
       const confirmationToken = crypto.randomUUID();
+      console.log('Generated confirmation token');
 
       // Create or update user record
       const { error: upsertError } = await supabase
@@ -129,7 +140,12 @@ function SharedPage() {
           returning: 'minimal'
         });
 
-      if (upsertError) throw upsertError;
+      if (upsertError) {
+        console.error('Error upserting user:', upsertError);
+        throw upsertError;
+      }
+
+      console.log('User record created/updated');
 
       // Send verification email using Supabase Auth
       const { error: emailError } = await supabase.auth.signInWithOtp({
@@ -143,7 +159,12 @@ function SharedPage() {
         }
       });
 
-      if (emailError) throw emailError;
+      if (emailError) {
+        console.error('Error sending verification email:', emailError);
+        throw emailError;
+      }
+
+      console.log('Verification email sent');
 
       // Update UI state
       setUserStatus('unconfirmed');

@@ -13,27 +13,37 @@ function VerifyPage() {
       try {
         // Get the token from the URL
         const token = searchParams.get('token');
+        console.log('Verifying token from URL');
+        
         if (!token) {
           throw new Error('No verification token found');
         }
 
         // Verify the token with Supabase Auth
+        console.log('Verifying with Supabase Auth...');
         const { error: authError, data } = await supabase.auth.verifyOtp({
           token_hash: token,
           type: 'email'
         });
 
-        if (authError) throw authError;
+        if (authError) {
+          console.error('Auth verification error:', authError);
+          throw authError;
+        }
+
+        console.log('Auth verification successful');
 
         // Get the user data that was passed in the email
         const { user, session } = data;
         const { username, confirmation_token } = user.user_metadata;
+        console.log('User metadata:', { username, hasToken: !!confirmation_token });
 
         if (!username || !confirmation_token) {
           throw new Error('Invalid verification data');
         }
 
         // Update the user record in our database
+        console.log('Updating user record...');
         const { error: updateError } = await supabase
           .from('users')
           .update({ 
@@ -44,10 +54,16 @@ function VerifyPage() {
           .eq('username', username)
           .eq('confirmation_token', confirmation_token);
 
-        if (updateError) throw updateError;
+        if (updateError) {
+          console.error('Error updating user record:', updateError);
+          throw updateError;
+        }
 
+        console.log('User record updated successfully');
         setStatus('success');
+        
         // Redirect to the user's mood page after 3 seconds
+        console.log('Redirecting to mood page in 3 seconds...');
         setTimeout(() => {
           navigate(`/${username}`);
         }, 3000);
