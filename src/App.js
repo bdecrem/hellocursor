@@ -79,9 +79,10 @@ function App() {
     }
   };
 
+  // Initial GIF fetch on load
   useEffect(() => {
     fetchGif(currentMood.search);
-  }, [currentMood]);
+  }, []); // Empty dependency array means this only runs once on mount
 
   const spinRoulette = () => {
     if (isSpinning) return;
@@ -110,6 +111,9 @@ function App() {
         localStorage.setItem('currentGradient', JSON.stringify(newGradient));
         localStorage.setItem('currentMood', JSON.stringify(newMood));
         setIsSpinning(false);
+        
+        // Only fetch new GIF after spin completes
+        fetchGif(newMood.search);
       }
     };
     
