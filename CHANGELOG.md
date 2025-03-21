@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - When instructed with "remember this commit", the commit will be marked with ⭐
 - All commits are logged under [Recent Commits]
 - Starred builds are moved to [⭐ Starred Working Builds] with revert instructions
+- Automated changelog updates enforced by pre-commit hook
+- Cursor AI configured to maintain changelog format
 
 ## [⭐ Starred Working Builds]
 
@@ -25,6 +27,10 @@ All notable changes to this project will be documented in this file.
 ## [Recent Commits]
 
 ### March 26, 2024
+- **96983a4** - Add Cursor AI configuration files
+  - Created .cursor configuration file
+  - Added pre-commit hook for changelog updates
+  - Created .cursor/prompts.md with AI instructions
 - **91c2dbc** - Add dismiss button and bottom border to claim banner
   - Added × dismiss button to top-right corner
   - Added thin black bottom border

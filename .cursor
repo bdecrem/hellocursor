@@ -1,0 +1,6 @@
+{
+  "defaultPrompts": {
+    "changelog": "Always update the Changelog.md file with any changes made. Format with date and description.",
+    "goldStar": "When specifically requested, add a gold star (⭐) next to important commits in the Changelog.md"
+  }
+} 
