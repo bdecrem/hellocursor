@@ -4,6 +4,7 @@ import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Gif } from '@giphy/react-components';
 import { supabase } from '../supabaseClient';
 import '../App.css';
+import ClaimBanner from './ClaimBanner';
 
 // Import the moods array so we can get the search term
 import { moods } from '../App';
@@ -14,6 +15,7 @@ function SharedPage() {
   const [error, setError] = useState(null);
   const [sharedMood, setSharedMood] = useState(null);
   const [gif, setGif] = useState(null);
+  const [showClaimBanner, setShowClaimBanner] = useState(false);
 
   useEffect(() => {
     async function fetchSharedMood() {
@@ -28,6 +30,7 @@ function SharedPage() {
         if (!data) throw new Error('Mood not found');
 
         setSharedMood(data);
+        setShowClaimBanner(true);
         
         // Find the mood object to get the search term
         const moodObj = moods.find(m => m.name === data.mood_name);
@@ -67,12 +70,20 @@ function SharedPage() {
     }
   };
 
+  const handleClaimAccount = async (email) => {
+    // We'll implement this later
+    console.log('Claiming account for:', email);
+  };
+
   if (loading) return <div className="App-header">Loading...</div>;
   if (error) return <div className="App-header">Error: {error}</div>;
   if (!sharedMood) return <div className="App-header">Mood not found</div>;
 
   return (
     <div className="App">
+      {showClaimBanner && (
+        <ClaimBanner onSubmit={handleClaimAccount} />
+      )}
       <header className="App-header" style={{ background: sharedMood.gradient_style }}>
         <div className="mood-title-container">
           <div className="mood-title mood-title-bottom">

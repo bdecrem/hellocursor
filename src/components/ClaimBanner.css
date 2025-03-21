@@ -1,0 +1,74 @@
+.claim-banner {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.claim-banner:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.claim-banner p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.claim-banner-form {
+  cursor: default;
+}
+
+.claim-banner form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.claim-banner input {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  min-width: 250px;
+}
+
+.claim-banner input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.claim-banner button {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.claim-banner button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.claim-banner button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.claim-banner .cancel-button {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.claim-banner .cancel-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+} 

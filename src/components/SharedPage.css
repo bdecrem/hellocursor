@@ -1,0 +1,44 @@
+.shared-page {
+  min-height: 100vh;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.shared-page .mood-display {
+  margin-top: 1rem;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shared-page h1 {
+  font-size: 2.5rem;
+  margin: 0 0 2rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shared-page .gif-container {
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shared-page .mood-gif {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.shared-page.loading,
+.shared-page.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.2rem;
+  color: #64748b;
+} 
