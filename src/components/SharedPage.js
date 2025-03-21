@@ -155,7 +155,7 @@ function SharedPage() {
             username,
             confirmation_token: confirmationToken
           },
-          emailRedirectTo: `${window.location.origin}/verify`
+          emailRedirectTo: `${window.location.origin}/verify?username=${username}`
         }
       });
 

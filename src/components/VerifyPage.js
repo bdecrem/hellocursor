@@ -19,30 +19,31 @@ function VerifyPage() {
           throw new Error('No verification token found');
         }
 
-        // Verify the token with Supabase Auth
-        console.log('Verifying with Supabase Auth...');
-        const { error: authError, data } = await supabase.auth.verifyOtp({
-          token_hash: token,
-          type: 'email'
-        });
-
-        if (authError) {
-          console.error('Auth verification error:', authError);
-          throw authError;
+        // Get the username from the URL
+        const username = searchParams.get('username');
+        if (!username) {
+          throw new Error('No username found');
         }
 
-        console.log('Auth verification successful');
+        console.log('Verifying for username:', username);
 
-        // Get the user data that was passed in the email
-        const { user, session } = data;
-        const { username, confirmation_token } = user.user_metadata;
-        console.log('User metadata:', { username, hasToken: !!confirmation_token });
+        // First, get the user record to get the confirmation token
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('username', username)
+          .single();
 
-        if (!username || !confirmation_token) {
-          throw new Error('Invalid verification data');
+        if (userError) {
+          console.error('Error fetching user:', userError);
+          throw new Error('Could not find user record');
         }
 
-        // Update the user record in our database
+        if (!userData || !userData.confirmation_token) {
+          throw new Error('Invalid user data or missing confirmation token');
+        }
+
+        // Update the user record to confirm them
         console.log('Updating user record...');
         const { error: updateError } = await supabase
           .from('users')
@@ -52,7 +53,7 @@ function VerifyPage() {
             updated_at: new Date().toISOString()
           })
           .eq('username', username)
-          .eq('confirmation_token', confirmation_token);
+          .eq('confirmation_token', userData.confirmation_token);
 
         if (updateError) {
           console.error('Error updating user record:', updateError);
@@ -83,15 +84,15 @@ function VerifyPage() {
       <header className="App-header">
         {status === 'verifying' && (
           <div>
-            <h2>Verifying your email...</h2>
+            <h2>Verifying your email... ✨</h2>
             <p>Please wait while we confirm your account.</p>
           </div>
         )}
         {status === 'success' && (
           <div>
-            <h2>Email Verified! ✨</h2>
+            <h2>Success! ✨</h2>
             <p>Your account has been confirmed.</p>
-            <p>Redirecting you back to your mood page...</p>
+            <p>Redirecting you back to your mood page in 3 seconds...</p>
           </div>
         )}
         {status === 'error' && (

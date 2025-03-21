@@ -75,6 +75,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+- Email verification process now correctly confirms users
+- Verification page shows proper success message
+- Claim banner correctly disappears after verification
+- Username properly passed in verification URL
+
 ### Added
 - Debug logging for user verification process
 - Detailed console logs for account claiming
