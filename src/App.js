@@ -58,15 +58,17 @@ function MainApp() {
 
   const [hasRolled, setHasRolled] = useState(false);
 
+  const [refreshKey, setRefreshKey] = useState(Date.now());
+
   const fetchGif = async (searchTerm) => {
     try {
       const gf = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
       let data;
       if (searchTerm === 'trending') {
-        const result = await gf.trending({ limit: 25 });
+        const result = await gf.trending({ limit: 25, offset: Math.floor(Math.random() * 100) });
         data = result.data;
       } else {
-        const result = await gf.search(searchTerm, { limit: 25 });
+        const result = await gf.search(searchTerm, { limit: 25, offset: Math.floor(Math.random() * 100) });
         data = result.data;
       }
       
@@ -84,10 +86,8 @@ function MainApp() {
 
   // Initial GIF fetch on load
   useEffect(() => {
-    // Disable the exhaustive-deps rule for this effect since we only want it to run once
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchGif(currentMood.search);
-  }, []); // Empty dependency array means this only runs once on mount
+  }, [currentMood.search, refreshKey]);
 
   const spinRoulette = () => {
     if (isSpinning) return;
