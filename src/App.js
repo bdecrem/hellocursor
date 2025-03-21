@@ -53,10 +53,7 @@ function App() {
     return savedGradient || (savedFromStorage ? JSON.parse(savedFromStorage) : gradients[0]);
   });
 
-  const [hasRolled, setHasRolled] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return !params.get('mood');
-  });
+  const [hasRolled, setHasRolled] = useState(false);
 
   const fetchGif = async (searchTerm) => {
     try {
