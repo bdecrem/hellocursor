@@ -159,9 +159,11 @@ function MainApp() {
         .insert([
           {
             username: uniqueUsername,
-            mood: currentMood,
-            gradient: currentGradient,
-            gif_url: gif.id
+            mood_name: currentMood.name,
+            gradient_name: currentGradient.name,
+            gradient_style: currentGradient.style,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
           }
         ])
         .select()

@@ -5,6 +5,9 @@ import { Gif } from '@giphy/react-components';
 import { supabase } from '../supabaseClient';
 import '../App.css';
 
+// Import the moods array so we can get the search term
+import { moods } from '../App';
+
 function SharedPage() {
   const { username } = useParams();
   const [loading, setLoading] = useState(true);
@@ -25,7 +28,12 @@ function SharedPage() {
         if (!data) throw new Error('Mood not found');
 
         setSharedMood(data);
-        fetchGif(data.mood.search);
+        
+        // Find the mood object to get the search term
+        const moodObj = moods.find(m => m.name === data.mood_name);
+        if (moodObj) {
+          fetchGif(moodObj.search);
+        }
       } catch (error) {
         console.error('Error fetching shared mood:', error);
         setError(error.message);
@@ -65,10 +73,10 @@ function SharedPage() {
 
   return (
     <div className="App">
-      <header className="App-header" style={{ background: sharedMood.gradient.style }}>
+      <header className="App-header" style={{ background: sharedMood.gradient_style }}>
         <div className="mood-title-container">
           <div className="mood-title mood-title-bottom">
-            {sharedMood.gradient.name} {sharedMood.mood.name}
+            {sharedMood.gradient_name} {sharedMood.mood_name}
           </div>
         </div>
 
@@ -82,7 +90,7 @@ function SharedPage() {
           <p className="hello-text">
             Hello world,
             <br />
-            I'm feeling {sharedMood.gradient.name} {sharedMood.mood.name} today.
+            I'm feeling {sharedMood.gradient_name} {sharedMood.mood_name} today.
           </p>
           <p className="signature">—{username}</p>
         </div>
