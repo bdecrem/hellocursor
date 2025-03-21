@@ -160,17 +160,32 @@ function App() {
         {showShareDialog && (
           <div className="share-dialog">
             <button className="dialog-close" onClick={() => setShowShareDialog(false)}>✕</button>
-            <div className="share-url-container">
-              <input type="text" readOnly value={shareUrl} className="share-url" />
-              <button onClick={handleCopyUrl} className="copy-icon" title="Copy link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 3H4v13h3v4h13V8h-4V3zM7 14V5h7v3h3v8H7z" fill="currentColor"/>
-                </svg>
-              </button>
-            </div>
-            <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="new-tab-button">
-              Take me there
-            </a>
+            {!shareUrl ? (
+              <form onSubmit={handleShareSubmit}>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="name-input"
+                />
+                <button type="submit" className="new-tab-button">Create Link</button>
+              </form>
+            ) : (
+              <>
+                <div className="share-url-container">
+                  <input type="text" readOnly value={shareUrl} className="share-url" />
+                  <button onClick={handleCopyUrl} className="copy-icon" title="Copy link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16 3H4v13h3v4h13V8h-4V3zM7 14V5h7v3h3v8H7z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+                <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="new-tab-button">
+                  Take me there
+                </a>
+              </>
+            )}
           </div>
         )}
 
