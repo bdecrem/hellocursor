@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Configuration]
+- ⭐ marks specially designated commits that represent stable, working builds
+- When instructed with "remember this commit", the commit will be marked with ⭐
+- All commits are logged under [Recent Commits]
+- Starred builds are moved to [⭐ Starred Working Builds] with revert instructions
+
 ## [⭐ Starred Working Builds]
 
 ### March 26, 2024
