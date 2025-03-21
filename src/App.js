@@ -150,12 +150,13 @@ function App() {
           <div className="mood-title-container">
             <div className="mood-title mood-title-bottom">
               {currentGradient.name} {currentMood.name}
-              <button className="save-button" onClick={handleSaveClick} title="Save and share">
-                💾
-              </button>
             </div>
           </div>
         )}
+
+        <button className="share-corner-button" onClick={handleSaveClick} title="Share this mood">
+          <span>Share</span> 🔗
+        </button>
 
         {showShareDialog && (
           <div className="share-dialog">
@@ -194,7 +195,11 @@ function App() {
         <div className="message-container">
           <p className="hello-text">
             {isSharedUrl ? (
-              <>Hello world! I'm feeling {currentGradient.name} {currentMood.name} today</>
+              <>
+                Hello world!
+                <br />
+                I'm feeling {currentGradient.name} {currentMood.name} today
+              </>
             ) : (
               'Hello world!'
             )}
