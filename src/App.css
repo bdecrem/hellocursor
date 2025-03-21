@@ -264,6 +264,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .share-url {
@@ -274,10 +275,26 @@
   font-size: 14px;
   color: #2c3e50;
   box-sizing: border-box;
-  width: calc(100% - 24px);
+  min-width: 200px;
 }
 
-.copy-button {
+.icon-button {
+  background: #2c3e50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  transform: scale(1.1);
+  background: #34495e;
+}
+
+.new-tab-button {
   background: #2c3e50;
   color: white;
   border: none;
@@ -285,5 +302,11 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.new-tab-button:hover {
+  background: #34495e;
+  transform: translateY(-1px);
 }

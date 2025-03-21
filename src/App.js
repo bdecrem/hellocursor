@@ -177,7 +177,10 @@ function App() {
             ) : (
               <div className="share-url-container">
                 <input type="text" readOnly value={shareUrl} className="share-url" />
-                <button onClick={handleCopyUrl} className="copy-button">Copy</button>
+                <button onClick={handleCopyUrl} className="icon-button" title="Copy link">📋</button>
+                <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="new-tab-button">
+                  Take me there
+                </a>
                 <button className="share-close" onClick={() => setShowShareDialog(false)}>✕</button>
               </div>
             )}
