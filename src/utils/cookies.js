@@ -11,14 +11,10 @@ export const setCookie = (name, value, days = 365) => {
     
     // Build cookie string - omit domain for localhost
     const cookieValue = `${name}=${value};${expires};path=/;SameSite=Lax${domain}`;
-    console.log('Setting cookie with value:', cookieValue);
-    console.log('Current hostname:', hostname);
     document.cookie = cookieValue;
     
     // Verify the cookie was set
     const verifyValue = getCookie(name);
-    console.log('Verifying cookie was set:', name, 'Value:', verifyValue);
-    console.log('All cookies after setting:', document.cookie);
     return verifyValue === value;
   } catch (error) {
     console.error('Error setting cookie:', error);
@@ -29,16 +25,11 @@ export const setCookie = (name, value, days = 365) => {
 export const getCookie = (name) => {
   try {
     const cookies = document.cookie.split(';').map(c => c.trim());
-    console.log('Getting cookie:', name);
-    console.log('All cookies:', cookies);
     for (const cookie of cookies) {
       if (cookie.startsWith(name + '=')) {
-        const value = cookie.substring(name.length + 1);
-        console.log('Found cookie value:', value);
-        return value;
+        return cookie.substring(name.length + 1);
       }
     }
-    console.log('Cookie not found:', name);
     return null;
   } catch (error) {
     console.error('Error getting cookie:', error);

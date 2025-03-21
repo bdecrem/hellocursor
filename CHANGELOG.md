@@ -75,6 +75,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- Removed debug logging code while maintaining essential error logging
+- Cleaned up cookie utility functions for production
+
 ### Added
 - Cookie-based claim banner visibility
 - Debug logging for cookie operations
