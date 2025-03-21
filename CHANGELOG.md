@@ -76,19 +76,14 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
-- Email verification process now correctly confirms users
-- Verification page shows proper success message
-- Claim banner correctly disappears after verification
-- Username properly passed in verification URL
+- Simplified email verification flow to be more reliable
+- Removed unnecessary token checking
+- Fixed user confirmation status update
+- Improved error handling in verification process
 
 ### Added
-- Debug logging for user verification process
-- Detailed console logs for account claiming
-- User status checking in shared pages
-- Email verification system using Supabase's built-in service
-- Verification page for confirming email addresses
-- Secure token generation for email verification
-- Automatic redirection after successful verification
+- More detailed logging for verification process
+- Better error messages for verification failures
 
 ### Changed
 - Removed verified badge from user signatures

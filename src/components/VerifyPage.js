@@ -11,23 +11,15 @@ function VerifyPage() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        // Get the token from the URL
-        const token = searchParams.get('token');
-        console.log('Verifying token from URL');
-        
-        if (!token) {
-          throw new Error('No verification token found');
-        }
-
-        // Get the username from the URL
+        // Get parameters from URL
         const username = searchParams.get('username');
         if (!username) {
-          throw new Error('No username found');
+          throw new Error('No username found in URL');
         }
 
         console.log('Verifying for username:', username);
 
-        // First, get the user record to get the confirmation token
+        // Get the user record
         const { data: userData, error: userError } = await supabase
           .from('users')
           .select('*')
@@ -39,9 +31,11 @@ function VerifyPage() {
           throw new Error('Could not find user record');
         }
 
-        if (!userData || !userData.confirmation_token) {
-          throw new Error('Invalid user data or missing confirmation token');
+        if (!userData) {
+          throw new Error('User not found');
         }
+
+        console.log('Found user record:', userData);
 
         // Update the user record to confirm them
         console.log('Updating user record...');
@@ -52,8 +46,7 @@ function VerifyPage() {
             confirmation_token: null,
             updated_at: new Date().toISOString()
           })
-          .eq('username', username)
-          .eq('confirmation_token', userData.confirmation_token);
+          .eq('username', username);
 
         if (updateError) {
           console.error('Error updating user record:', updateError);

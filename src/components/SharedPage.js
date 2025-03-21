@@ -151,10 +151,6 @@ function SharedPage() {
       const { error: emailError } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          data: {
-            username,
-            confirmation_token: confirmationToken
-          },
           emailRedirectTo: `${window.location.origin}/verify?username=${username}`
         }
       });
