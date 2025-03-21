@@ -147,16 +147,17 @@ function App() {
     <div className="App">
       <header className="App-header" style={{ background: currentGradient.style }}>
         {hasRolled && (
-          <>
-            <div className="mood-title-container">
-              <div className="mood-title mood-title-bottom">
-                {currentGradient.name} {currentMood.name}
-              </div>
+          <div className="mood-title-container">
+            <div className="mood-title mood-title-bottom">
+              {currentGradient.name} {currentMood.name}
             </div>
-            <button className="share-icon" onClick={handleSaveClick} title="Share this mood">
-              🔗
-            </button>
-          </>
+          </div>
+        )}
+
+        {hasRolled && (
+          <button className="share-icon" onClick={handleSaveClick} title="Share this mood">
+            🔗
+          </button>
         )}
 
         {showShareDialog && (
