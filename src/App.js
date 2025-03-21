@@ -105,7 +105,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header" style={{ background: currentGradient.style }}>
-        <div className="mood-title">
+        <div className="mood-title mood-title-bottom">
           {currentGradient.name} {currentMood.name}
         </div>
         {error && (
