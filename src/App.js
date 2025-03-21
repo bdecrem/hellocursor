@@ -81,6 +81,8 @@ function App() {
 
   // Initial GIF fetch on load
   useEffect(() => {
+    // Disable the exhaustive-deps rule for this effect since we only want it to run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchGif(currentMood.search);
   }, []); // Empty dependency array means this only runs once on mount
 
