@@ -17,10 +17,28 @@ function SharedPage() {
   const [sharedMood, setSharedMood] = useState(null);
   const [gif, setGif] = useState(null);
   const [showClaimBanner, setShowClaimBanner] = useState(false);
+  const [userStatus, setUserStatus] = useState(null); // 'confirmed', 'unconfirmed', or null
 
   useEffect(() => {
     const fetchSharedMood = async () => {
       try {
+        // First check if this username already has a user account
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('username', username)
+          .single();
+
+        if (userError && userError.code !== 'PGRST116') { // PGRST116 is "not found" error
+          throw userError;
+        }
+
+        // Set user status if found
+        if (userData) {
+          setUserStatus(userData.is_confirmed ? 'confirmed' : 'unconfirmed');
+        }
+
+        // Then fetch the shared mood
         const { data, error } = await supabase
           .from('shared_moods')
           .select('*')
@@ -33,9 +51,8 @@ function SharedPage() {
           // Check if this is the mood creator viewing their own mood
           const cookieName = `mood_creator_${username}`;
           const isMoodCreator = getCookie(cookieName);
-          console.log('Checking cookie:', cookieName, 'Value:', isMoodCreator);
-          console.log('All cookies:', document.cookie);
-          setShowClaimBanner(!!isMoodCreator);
+          // Only show claim banner if user is creator and not already confirmed
+          setShowClaimBanner(!!isMoodCreator && userStatus !== 'confirmed');
           
           // Find the mood object to get the search term
           const moodObj = moods.find(m => m.name === data.mood_name);
@@ -44,15 +61,15 @@ function SharedPage() {
           }
         }
       } catch (err) {
-        console.error('Error fetching shared mood:', err);
-        setError('Could not find the shared mood');
+        console.error('Error fetching data:', err);
+        setError('Could not load the page');
       } finally {
         setLoading(false);
       }
     };
 
     fetchSharedMood();
-  }, [username]);
+  }, [username, userStatus]);
 
   const fetchGif = async (searchTerm) => {
     try {
@@ -78,12 +95,47 @@ function SharedPage() {
 
   const handleClaimAccount = async (email) => {
     try {
-      // We'll implement this later when we add authentication
-      console.log('Claiming account for:', email);
-      // For now, just hide the banner after submission
+      // Check if email is already in use by a confirmed user
+      const { data: existingUser, error: checkError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .eq('is_confirmed', true)
+        .single();
+
+      if (checkError && checkError.code !== 'PGRST116') {
+        throw checkError;
+      }
+
+      if (existingUser) {
+        throw new Error('This email is already registered');
+      }
+
+      // Create or update user record
+      const { data, error } = await supabase
+        .from('users')
+        .upsert({
+          username,
+          email,
+          is_confirmed: false,
+          confirmation_token: Math.random().toString(36).substring(2, 15),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'username',
+          returning: 'minimal'
+        });
+
+      if (error) throw error;
+
+      // TODO: Send confirmation email
+      // For now, we'll just update the UI
+      setUserStatus('unconfirmed');
       setShowClaimBanner(false);
+      
     } catch (error) {
       console.error('Error claiming account:', error);
+      throw error; // Let the ClaimBanner component handle the error
     }
   };
 
@@ -94,7 +146,10 @@ function SharedPage() {
   return (
     <div className="App">
       {showClaimBanner && (
-        <ClaimBanner onSubmit={handleClaimAccount} />
+        <ClaimBanner 
+          onSubmit={handleClaimAccount}
+          userStatus={userStatus}
+        />
       )}
       <header className="App-header" style={{ background: sharedMood.gradient_style }}>
         <div className="mood-title-container">

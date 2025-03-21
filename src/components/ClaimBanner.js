@@ -2,26 +2,42 @@ import React, { useState } from 'react';
 import './ClaimBanner.css';
 
 // Test comment to verify pre-commit hook
-const ClaimBanner = ({ onSubmit }) => {
+const ClaimBanner = ({ onSubmit, userStatus }) => {
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     try {
       await onSubmit(email);
       setShowForm(false);
     } catch (error) {
-      console.error('Error claiming account:', error);
+      setError(error.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   if (isDismissed) return null;
+
+  if (userStatus === 'unconfirmed') {
+    return (
+      <div className="claim-banner claim-banner-warning">
+        <button 
+          className="dismiss-button" 
+          onClick={() => setIsDismissed(true)}
+        >
+          ×
+        </button>
+        <p>📧 Please check your email to confirm your account</p>
+      </div>
+    );
+  }
 
   if (!showForm) {
     return (
@@ -49,6 +65,7 @@ const ClaimBanner = ({ onSubmit }) => {
         ×
       </button>
       <form onSubmit={handleSubmit}>
+        {error && <div className="error-message">{error}</div>}
         <input
           type="email"
           value={email}
@@ -62,7 +79,10 @@ const ClaimBanner = ({ onSubmit }) => {
         </button>
         <button 
           type="button" 
-          onClick={() => setShowForm(false)}
+          onClick={() => {
+            setShowForm(false);
+            setError(null);
+          }}
           className="cancel-button"
           disabled={isSubmitting}
         >
