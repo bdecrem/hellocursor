@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Gif } from '@giphy/react-components';
+import { supabase } from './supabaseClient';
+import SharedPage from './components/SharedPage';
 import './App.css';
 
 const gradients = [
@@ -29,7 +32,7 @@ const moods = [
   { name: 'Hungry', search: 'hungry food' }
 ];
 
-function App() {
+function MainApp() {
   const [gif, setGif] = useState(null);
   const [error, setError] = useState(null);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -126,16 +129,54 @@ function App() {
     setShowShareDialog(true);
   };
 
-  const handleShareSubmit = (e) => {
+  const handleShareSubmit = async (e) => {
     e.preventDefault();
-    const baseUrl = window.location.origin + window.location.pathname;
-    const params = new URLSearchParams({
-      mood: currentMood.name,
-      gradient: currentGradient.name,
-      name: userName
-    });
-    const url = `${baseUrl}?${params.toString()}`;
-    setShareUrl(url);
+    if (!userName.trim()) return;
+
+    try {
+      // Check for existing usernames and find next available number
+      const { data: existingUsers } = await supabase
+        .from('shared_moods')
+        .select('username')
+        .ilike('username', `${userName}%`);
+
+      let uniqueUsername = userName;
+      if (existingUsers && existingUsers.length > 0) {
+        const numbers = existingUsers
+          .map(u => {
+            const match = u.username.match(new RegExp(`^${userName}(\\d*)$`));
+            return match ? (match[1] ? parseInt(match[1]) : 1) : 0;
+          })
+          .filter(n => !isNaN(n));
+        
+        const maxNumber = Math.max(0, ...numbers);
+        uniqueUsername = `${userName}${maxNumber + 1}`;
+      }
+
+      // Save to Supabase
+      const { data, error } = await supabase
+        .from('shared_moods')
+        .insert([
+          {
+            username: uniqueUsername,
+            mood: currentMood,
+            gradient: currentGradient,
+            gif_url: gif.id
+          }
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      // Create the share URL using the unique username
+      const url = `${window.location.origin}/${uniqueUsername}`;
+      setShareUrl(url);
+      setUserName(uniqueUsername); // Update the displayed username
+    } catch (err) {
+      console.error('Error saving shared mood:', err);
+      setError(`Failed to create share link: ${err.message}`);
+    }
   };
 
   const handleCopyUrl = () => {
@@ -228,6 +269,17 @@ function App() {
         </button>
       </header>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainApp />} />
+        <Route path="/:username" element={<SharedPage />} />
+      </Routes>
+    </Router>
   );
 }
 
