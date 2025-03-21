@@ -38,6 +38,11 @@ function App() {
     fetchTrendingGif();
   }, []);
 
+  const handleColorClick = () => {
+    // We'll implement this next
+    console.log('Color button clicked!');
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -55,6 +60,9 @@ function App() {
           <p className="hello-text">Hello world!</p>
           <p className="signature">—Bart</p>
         </div>
+        <button className="color-button" onClick={handleColorClick}>
+          Colors!
+        </button>
       </header>
     </div>
   );
