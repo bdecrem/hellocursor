@@ -203,9 +203,9 @@ function App() {
           <p className="hello-text">
             {isSharedUrl ? (
               <>
-                Hello world!
+                Hello world,
                 <br />
-                I'm feeling {currentGradient.name} {currentMood.name} today
+                I'm feeling {currentGradient.name} {currentMood.name} today.
               </>
             ) : (
               'Hello world!'
