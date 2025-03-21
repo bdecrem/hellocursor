@@ -13,6 +13,18 @@ All notable changes to this project will be documented in this file.
 ## [⭐ Starred Working Builds]
 
 ### March 26, 2024
+- **5608044** - Improve cookie domain handling and debugging ⭐
+  - Added special handling for localhost cookies
+  - Enhanced cookie debugging and verification
+  - Improved Safari compatibility
+  - Added detailed operation logging
+  - To revert to this version:
+    ```bash
+    git revert --no-commit 5608044..HEAD
+    git commit -m "Revert to working version 5608044 (Cookie handling improvements)"
+    git push
+    ```
+
 - **fc894e5** - Test pre-commit hook functionality ⭐
   - Added test comment to verify changelog enforcement
   - Successfully implemented pre-commit hook for changelog updates
@@ -37,11 +49,11 @@ All notable changes to this project will be documented in this file.
 ## [Recent Commits]
 
 ### March 26, 2024
-- **Current** - Add cookie-based claim banner visibility
-  - Added cookie utilities for managing user identification
-  - Set cookie when user creates a shared mood
-  - Show claim banner only when user visits their own shared mood
-  - Added error handling for cookie operations
+- **5608044** - Improve cookie domain handling and add detailed logging
+  - Added special handling for localhost cookies
+  - Enhanced cookie debugging and verification
+  - Improved Safari compatibility
+  - Added detailed operation logging
 - **285543b** - Add Cursor AI configuration files
   - Created .cursor configuration file
   - Added pre-commit hook for changelog updates
@@ -85,6 +97,18 @@ All notable changes to this project will be documented in this file.
 ## [⭐ Starred Working Builds]
 
 ### March 26, 2024
+- **5608044** - Improve cookie domain handling and debugging ⭐
+  - Added special handling for localhost cookies
+  - Enhanced cookie debugging and verification
+  - Improved Safari compatibility
+  - Added detailed operation logging
+  - To revert to this version:
+    ```bash
+    git revert --no-commit 5608044..HEAD
+    git commit -m "Revert to working version 5608044 (Cookie handling improvements)"
+    git push
+    ```
+
 - **fc894e5** - Test pre-commit hook functionality ⭐
   - Added test comment to verify changelog enforcement
   - Successfully implemented pre-commit hook for changelog updates
@@ -109,11 +133,11 @@ All notable changes to this project will be documented in this file.
 ## [Recent Commits]
 
 ### March 26, 2024
-- **Current** - Add cookie-based claim banner visibility
-  - Added cookie utilities for managing user identification
-  - Set cookie when user creates a shared mood
-  - Show claim banner only when user visits their own shared mood
-  - Added error handling for cookie operations
+- **5608044** - Improve cookie domain handling and add detailed logging
+  - Added special handling for localhost cookies
+  - Enhanced cookie debugging and verification
+  - Improved Safari compatibility
+  - Added detailed operation logging
 - **285543b** - Add Cursor AI configuration files
   - Created .cursor configuration file
   - Added pre-commit hook for changelog updates
@@ -131,4 +155,17 @@ All notable changes to this project will be documented in this file.
 - **037ab16** - Update CHANGELOG format to include starred builds and recent commits
 - **fe3829c** - Add CHANGELOG.md to track working builds
   - Created changelog file
-  - Added documentation for working build 68792c0 
+  - Added documentation for working build 68792c0
+
+## [Unreleased]
+
+### Added
+- Cookie-based claim banner visibility
+- Debug logging for cookie operations
+- Improved Safari compatibility for cookies
+- Cookie verification on set
+- More robust cookie parsing
+- Improved cookie domain handling for localhost and other domains
+- Enhanced cookie debugging logs
+- Special handling for localhost cookies
+- More detailed cookie operation logging 
