@@ -159,28 +159,14 @@ function App() {
 
         {showShareDialog && (
           <div className="share-dialog">
-            {!shareUrl ? (
-              <form onSubmit={handleShareSubmit}>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  className="name-input"
-                />
-                <button type="submit" className="share-submit">Create Link</button>
-                <button type="button" className="share-close" onClick={() => setShowShareDialog(false)}>✕</button>
-              </form>
-            ) : (
-              <div className="share-url-container">
-                <input type="text" readOnly value={shareUrl} className="share-url" />
-                <button onClick={handleCopyUrl} className="icon-button" title="Copy link">📋</button>
-                <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="new-tab-button">
-                  Take me there
-                </a>
-                <button className="share-close" onClick={() => setShowShareDialog(false)}>✕</button>
-              </div>
-            )}
+            <button className="dialog-close" onClick={() => setShowShareDialog(false)}>✕</button>
+            <div className="share-url-container">
+              <input type="text" readOnly value={shareUrl} className="share-url" />
+              <button onClick={handleCopyUrl} className="copy-icon" title="Copy link">⏹⏹</button>
+            </div>
+            <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="new-tab-button">
+              Take me there
+            </a>
           </div>
         )}
 

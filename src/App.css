@@ -223,48 +223,41 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 20px;
+  padding: 24px;
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  width: 300px;
+  width: 320px;
 }
 
-.name-input {
-  width: calc(100% - 24px);
-  padding: 8px 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-.share-submit {
-  background: #2c3e50;
-  color: white;
+.dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #f0f0f0;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 14px;
-  margin-right: 8px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.share-close {
+.dialog-close:hover {
   background: #e0e0e0;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
+  color: #333;
 }
 
 .share-url-container {
   display: flex;
   gap: 8px;
   align-items: center;
-  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 .share-url {
@@ -278,32 +271,35 @@
   min-width: 200px;
 }
 
-.icon-button {
-  background: #2c3e50;
-  color: white;
+.copy-icon {
+  background: none;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 14px;
+  padding: 8px;
+  color: #666;
   transition: all 0.2s ease;
 }
 
-.icon-button:hover {
+.copy-icon:hover {
+  color: #2c3e50;
   transform: scale(1.1);
-  background: #34495e;
 }
 
 .new-tab-button {
+  display: block;
   background: #2c3e50;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   text-decoration: none;
   transition: all 0.2s ease;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .new-tab-button:hover {
