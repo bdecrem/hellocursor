@@ -3,9 +3,23 @@ import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Gif } from '@giphy/react-components';
 import './App.css';
 
+const gradients = [
+  'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', // Current peachy gradient
+  'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', // Fresh mint to pink
+  'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)', // Spring grass
+  'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)', // Ocean breeze
+  'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', // Sunset glow
+  'linear-gradient(135deg, #cd9cf2 0%, #f6f3ff 100%)', // Lavender mist
+  'linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%)', // Soft peach to pink
+  'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)', // Purple lake
+  'linear-gradient(135deg, #c1dfc4 0%, #deecdd 100%)', // Gentle green
+  'linear-gradient(135deg, #ffecd2 0%, #c7ecee 100%)'  // Sandy beach
+];
+
 function App() {
   const [gif, setGif] = useState(null);
   const [error, setError] = useState(null);
+  const [currentGradient, setCurrentGradient] = useState(0);
   
   useEffect(() => {
     const fetchTrendingGif = async () => {
@@ -39,13 +53,12 @@ function App() {
   }, []);
 
   const handleColorClick = () => {
-    // We'll implement this next
-    console.log('Color button clicked!');
+    setCurrentGradient((prev) => (prev + 1) % gradients.length);
   };
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" style={{ background: gradients[currentGradient] }}>
         {error && (
           <div style={{ color: 'red', marginBottom: '20px', maxWidth: '80%', wordBreak: 'break-word' }}>
             Error loading GIF: {error}
