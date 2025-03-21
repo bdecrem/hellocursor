@@ -75,6 +75,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Email verification system using Supabase's built-in service
+- Verification page for confirming email addresses
+- Secure token generation for email verification
+- Automatic redirection after successful verification
+
 ### Changed
 - Removed verified badge from user signatures
 - Removed debug logging code while maintaining essential error logging

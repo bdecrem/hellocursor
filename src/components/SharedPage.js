@@ -111,14 +111,17 @@ function SharedPage() {
         throw new Error('This email is already registered');
       }
 
+      // Generate a secure random token
+      const confirmationToken = crypto.randomUUID();
+
       // Create or update user record
-      const { data, error } = await supabase
+      const { error: upsertError } = await supabase
         .from('users')
         .upsert({
           username,
           email,
           is_confirmed: false,
-          confirmation_token: Math.random().toString(36).substring(2, 15),
+          confirmation_token: confirmationToken,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }, {
@@ -126,16 +129,29 @@ function SharedPage() {
           returning: 'minimal'
         });
 
-      if (error) throw error;
+      if (upsertError) throw upsertError;
 
-      // TODO: Send confirmation email
-      // For now, we'll just update the UI
+      // Send verification email using Supabase Auth
+      const { error: emailError } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          data: {
+            username,
+            confirmation_token: confirmationToken
+          },
+          emailRedirectTo: `${window.location.origin}/verify`
+        }
+      });
+
+      if (emailError) throw emailError;
+
+      // Update UI state
       setUserStatus('unconfirmed');
       setShowClaimBanner(false);
       
     } catch (error) {
       console.error('Error claiming account:', error);
-      throw error; // Let the ClaimBanner component handle the error
+      throw error;
     }
   };
 

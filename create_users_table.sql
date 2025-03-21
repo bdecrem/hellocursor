@@ -1,0 +1,1 @@
+CREATE TABLE users ( username TEXT PRIMARY KEY, email TEXT UNIQUE NOT NULL, is_confirmed BOOLEAN DEFAULT FALSE, confirmation_token TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW() );

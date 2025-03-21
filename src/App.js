@@ -6,6 +6,7 @@ import { supabase } from './supabaseClient';
 import SharedPage from './components/SharedPage';
 import './App.css';
 import { setCookie } from './utils/cookies';
+import VerifyPage from './components/VerifyPage';
 
 export const gradients = [
   { style: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', name: 'Peachy' },
@@ -285,6 +286,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<MainApp />} />
+        <Route path="/verify" element={<VerifyPage />} />
         <Route path="/:username" element={<SharedPage />} />
       </Routes>
     </Router>
