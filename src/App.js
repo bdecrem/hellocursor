@@ -53,6 +53,11 @@ function App() {
     return savedGradient || (savedFromStorage ? JSON.parse(savedFromStorage) : gradients[0]);
   });
 
+  const [hasRolled, setHasRolled] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return !params.get('mood');
+  });
+
   const fetchGif = async (searchTerm) => {
     try {
       const gf = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
@@ -85,6 +90,7 @@ function App() {
     if (isSpinning) return;
     
     setIsSpinning(true);
+    setHasRolled(true);
     
     // Simulate spinning with rapid changes
     const duration = 1000; // 1 second spin
@@ -133,17 +139,23 @@ function App() {
     navigator.clipboard.writeText(shareUrl);
   };
 
+  const params = new URLSearchParams(window.location.search);
+  const sharedName = params.get('name');
+  const isSharedUrl = params.get('mood') && params.get('gradient');
+
   return (
     <div className="App">
       <header className="App-header" style={{ background: currentGradient.style }}>
-        <div className="mood-title-container">
-          <div className="mood-title mood-title-bottom">
-            {currentGradient.name} {currentMood.name}
-            <button className="save-button" onClick={handleSaveClick} title="Save and share">
-              💾
-            </button>
+        {hasRolled && (
+          <div className="mood-title-container">
+            <div className="mood-title mood-title-bottom">
+              {currentGradient.name} {currentMood.name}
+              <button className="save-button" onClick={handleSaveClick} title="Save and share">
+                💾
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {showShareDialog && (
           <div className="share-dialog">
@@ -180,8 +192,14 @@ function App() {
           </div>
         )}
         <div className="message-container">
-          <p className="hello-text">Hello world!</p>
-          <p className="signature">—{new URLSearchParams(window.location.search).get('name') || 'Bart'}</p>
+          <p className="hello-text">
+            {isSharedUrl ? (
+              <>Hello world! I'm feeling {currentGradient.name} {currentMood.name} today</>
+            ) : (
+              'Hello world!'
+            )}
+          </p>
+          <p className="signature">—{sharedName || 'Bart'}</p>
         </div>
         <button 
           className={`roulette-button ${isSpinning ? 'spinning' : ''}`} 
