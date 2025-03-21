@@ -274,16 +274,22 @@
 .copy-icon {
   background: none;
   border: none;
-  font-size: 16px;
   cursor: pointer;
-  padding: 8px;
-  color: #666;
+  padding: 6px;
+  color: #999;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -4px;
 }
 
 .copy-icon:hover {
   color: #2c3e50;
-  transform: scale(1.1);
+}
+
+.copy-icon svg {
+  display: block;
 }
 
 .new-tab-button {
