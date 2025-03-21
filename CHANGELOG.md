@@ -19,6 +19,17 @@ All notable changes to this project will be documented in this file.
 ## [Recent Commits]
 
 ### March 26, 2024
+- **91c2dbc** - Add dismiss button and bottom border to claim banner
+  - Added × dismiss button to top-right corner
+  - Added thin black bottom border
+  - Improved banner interaction and styling
+- **03f2092** - Update claim banner styling to subtle silver/grey theme
+- **c932b74** - Add claim account banner and form UI
+  - Created ClaimBanner component with email form
+  - Added styling for the banner and form
+  - Integrated banner into SharedPage component
+  - Set up placeholder for account claiming logic
+- **037ab16** - Update CHANGELOG format to include starred builds and recent commits
 - **fe3829c** - Add CHANGELOG.md to track working builds
   - Created changelog file
   - Added documentation for working build 68792c0 
