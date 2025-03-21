@@ -84,10 +84,10 @@ function MainApp() {
     }
   };
 
-  // Initial GIF fetch on load
+  // Initial GIF fetch on load only
   useEffect(() => {
     fetchGif(currentMood.search);
-  }, [currentMood.search, refreshKey]);
+  }, [refreshKey]); // Only depends on refreshKey for page reloads
 
   const spinRoulette = () => {
     if (isSpinning) return;
@@ -103,6 +103,7 @@ function MainApp() {
     const spin = () => {
       const elapsed = Date.now() - startTime;
       if (elapsed < duration) {
+        // During spin, only update visuals without fetching GIFs
         setCurrentGradient(gradients[Math.floor(Math.random() * gradients.length)]);
         setCurrentMood(moods[Math.floor(Math.random() * moods.length)]);
         setTimeout(spin, interval);
@@ -115,10 +116,10 @@ function MainApp() {
         setCurrentMood(newMood);
         localStorage.setItem('currentGradient', JSON.stringify(newGradient));
         localStorage.setItem('currentMood', JSON.stringify(newMood));
-        setIsSpinning(false);
         
         // Only fetch new GIF after spin completes
         fetchGif(newMood.search);
+        setIsSpinning(false);
       }
     };
     
