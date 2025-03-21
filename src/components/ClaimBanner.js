@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './ClaimBanner.css';
 
+// Test comment to verify pre-commit hook
 const ClaimBanner = ({ onSubmit }) => {
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState('');
