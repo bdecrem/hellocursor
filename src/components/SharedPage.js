@@ -5,6 +5,7 @@ import { Gif } from '@giphy/react-components';
 import { supabase } from '../supabaseClient';
 import '../App.css';
 import ClaimBanner from './ClaimBanner';
+import { getCookie } from '../utils/cookies';
 
 // Import the moods array so we can get the search term
 import { moods } from '../App';
@@ -18,7 +19,7 @@ function SharedPage() {
   const [showClaimBanner, setShowClaimBanner] = useState(false);
 
   useEffect(() => {
-    async function fetchSharedMood() {
+    const fetchSharedMood = async () => {
       try {
         const { data, error } = await supabase
           .from('shared_moods')
@@ -27,23 +28,25 @@ function SharedPage() {
           .single();
 
         if (error) throw error;
-        if (!data) throw new Error('Mood not found');
-
-        setSharedMood(data);
-        setShowClaimBanner(true);
-        
-        // Find the mood object to get the search term
-        const moodObj = moods.find(m => m.name === data.mood_name);
-        if (moodObj) {
-          fetchGif(moodObj.search);
+        if (data) {
+          setSharedMood(data);
+          // Check if this is the mood creator viewing their own mood
+          const isMoodCreator = getCookie(`mood_creator_${username}`);
+          setShowClaimBanner(!!isMoodCreator);
+          
+          // Find the mood object to get the search term
+          const moodObj = moods.find(m => m.name === data.mood_name);
+          if (moodObj) {
+            fetchGif(moodObj.search);
+          }
         }
-      } catch (error) {
-        console.error('Error fetching shared mood:', error);
-        setError(error.message);
+      } catch (err) {
+        console.error('Error fetching shared mood:', err);
+        setError('Could not find the shared mood');
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchSharedMood();
   }, [username]);
@@ -71,8 +74,14 @@ function SharedPage() {
   };
 
   const handleClaimAccount = async (email) => {
-    // We'll implement this later
-    console.log('Claiming account for:', email);
+    try {
+      // We'll implement this later when we add authentication
+      console.log('Claiming account for:', email);
+      // For now, just hide the banner after submission
+      setShowClaimBanner(false);
+    } catch (error) {
+      console.error('Error claiming account:', error);
+    }
   };
 
   if (loading) return <div className="App-header">Loading...</div>;

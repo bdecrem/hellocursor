@@ -37,6 +37,11 @@ All notable changes to this project will be documented in this file.
 ## [Recent Commits]
 
 ### March 26, 2024
+- **Current** - Add cookie-based claim banner visibility
+  - Added cookie utilities for managing user identification
+  - Set cookie when user creates a shared mood
+  - Show claim banner only when user visits their own shared mood
+  - Added error handling for cookie operations
 - **285543b** - Add Cursor AI configuration files
   - Created .cursor configuration file
   - Added pre-commit hook for changelog updates

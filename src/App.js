@@ -5,6 +5,7 @@ import { Gif } from '@giphy/react-components';
 import { supabase } from './supabaseClient';
 import SharedPage from './components/SharedPage';
 import './App.css';
+import { setCookie } from './utils/cookies';
 
 export const gradients = [
   { style: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', name: 'Peachy' },
@@ -169,6 +170,9 @@ function MainApp() {
         .single();
 
       if (error) throw error;
+
+      // Set cookie to identify the user
+      setCookie(`mood_creator_${uniqueUsername}`, 'true');
 
       // Create the share URL using the unique username
       const url = `${window.location.origin}/${uniqueUsername}`;
