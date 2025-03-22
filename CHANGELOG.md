@@ -46,6 +46,18 @@ All notable changes to this project will be documented in this file.
     git push
     ```
 
+- **2d00216** - Update email verification flow and banner styling ⭐
+  - Updated email verification to use Supabase magic links
+  - Fixed banner styling to match silver/grey theme
+  - Updated redirect URLs for production deployment
+  - Improved error handling and logging
+  - To revert to this version:
+    ```bash
+    git revert --no-commit 2d00216..HEAD
+    git commit -m "Revert to working version 2d00216 (Email verification and banner styling)"
+    git push
+    ```
+
 ## [Recent Commits]
 
 ### March 26, 2024
