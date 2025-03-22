@@ -76,10 +76,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
-- Simplified email verification flow to be more reliable
-- Removed unnecessary token checking
-- Fixed user confirmation status update
-- Improved error handling in verification process
+- Updated email verification flow to use Supabase magic links
+- Fixed banner styling to match silver/grey theme
+- Updated redirect URLs for production deployment
+- Improved email verification error handling
 
 ### Added
 - More detailed logging for verification process

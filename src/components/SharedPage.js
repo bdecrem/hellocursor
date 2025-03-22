@@ -121,18 +121,13 @@ function SharedPage() {
         throw new Error('This email is already registered');
       }
 
-      // Generate a secure random token
-      const confirmationToken = crypto.randomUUID();
-      console.log('Generated confirmation token');
-
-      // Create or update user record
+      // Create or update user record first
       const { error: upsertError } = await supabase
         .from('users')
         .upsert({
           username,
           email,
           is_confirmed: false,
-          confirmation_token: confirmationToken,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }, {
@@ -151,7 +146,8 @@ function SharedPage() {
       const { error: emailError } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/verify?username=${username}`
+          shouldCreateUser: true,
+          emailRedirectTo: `https://hellocursor.netlify.app/verify?username=${username}`
         }
       });
 
@@ -160,7 +156,7 @@ function SharedPage() {
         throw emailError;
       }
 
-      console.log('Verification email sent');
+      console.log('Verification email sent successfully');
 
       // Update UI state
       setUserStatus('unconfirmed');

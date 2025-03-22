@@ -19,23 +19,18 @@ function VerifyPage() {
 
         console.log('Verifying for username:', username);
 
-        // Get the user record
-        const { data: userData, error: userError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('username', username)
-          .single();
-
-        if (userError) {
-          console.error('Error fetching user:', userError);
-          throw new Error('Could not find user record');
+        // Get the user session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError) {
+          console.error('Error getting session:', sessionError);
+          throw sessionError;
         }
 
-        if (!userData) {
-          throw new Error('User not found');
+        if (!session) {
+          throw new Error('No session found. Please try the verification link again.');
         }
 
-        console.log('Found user record:', userData);
+        console.log('Session found:', session);
 
         // Update the user record to confirm them
         console.log('Updating user record...');
@@ -43,10 +38,10 @@ function VerifyPage() {
           .from('users')
           .update({ 
             is_confirmed: true,
-            confirmation_token: null,
             updated_at: new Date().toISOString()
           })
-          .eq('username', username);
+          .eq('username', username)
+          .eq('email', session.user.email);
 
         if (updateError) {
           console.error('Error updating user record:', updateError);
